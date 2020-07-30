@@ -1,0 +1,1 @@
+#define amigoId 1
