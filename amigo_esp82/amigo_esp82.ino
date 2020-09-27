@@ -2,13 +2,13 @@
 #include <PubSubClient.h>
 #include "amigo_config.h"
 
-char ssid[] = "alix.cool";
-char pass[] = "nr8wjs01";
+char ssid[] = "freebox_alix";
+char pass[] = "indahouse";
 const char mqtt_server[] = "broker.hivemq.com"; 
 char publishUrlChar[1000];
 
-const int buttonPin = 2;
-const int vibratorPin = 3;
+const int buttonPin = 2; //D4
+const int vibratorPin = 4; //D2
 const int led = 16;
 int buttonState = 0;  
 
@@ -74,11 +74,11 @@ void subscribeReceive(char* topic, byte* payload, unsigned int length)
   // Print a newline
   Serial.println("");
   if(char(payload[0]) == 'h') {
-    digitalWrite(led, HIGH);
+    digitalWrite(led, LOW);
     digitalWrite(vibratorPin, HIGH);
   }
   else if(char(payload[0]) == 'l') {
-    digitalWrite(led, LOW);
+    digitalWrite(led, HIGH);
     digitalWrite(vibratorPin, LOW);
   }
   
@@ -96,7 +96,7 @@ void setup() {
   String publishUrl = "bracelet_amigo/" + String(otherAmigoId());
   publishUrl.toCharArray(publishUrlChar, 1000);
   
-  delay(3000);
+  delay(500);
   Serial.print("Amigo: ");
   Serial.println(amigoId);
   WiFi.mode(WIFI_STA);
@@ -115,7 +115,7 @@ void setup() {
   Serial.println(ip);
   client.setServer(mqtt_server, 1883);
   reconnect();
-
+  digitalWrite(led, HIGH);
  
 }
 
